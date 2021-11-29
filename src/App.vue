@@ -1,26 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <nav>
+      <a href="#">KanBoo</a>
+    </nav> 
+    <GitAndIssue/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import GitAndIssue from './components/GitAndIssue.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    GitAndIssue,
+  },
+  
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #16161A;
 }
+
+nav {
+  widows: 100%;
+  height: 70px;
+  background: #75757529;
+  color: #ffffff;
+}
+
 </style>
