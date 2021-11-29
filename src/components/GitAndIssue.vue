@@ -26,7 +26,17 @@ export default {
 
 <style>
 .gitContainer{
+    padding: 10px 40px;
     display: flex;
+    height: 85%;
+    justify-content: space-between;
+}
+.leftDiv{
+    width: 45%;
+}
+.rightDiv{
+    width: 50%;
+    height: 100%;
 }
 
 h1{
