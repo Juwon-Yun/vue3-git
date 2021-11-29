@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 const store = createStore({
     state(){
@@ -36,7 +37,12 @@ const store = createStore({
               currentTime:'오늘',
               state:'bug',
              },
-           ]
+           ],
+           gitrepo : [
+
+           ],
+           something : '',
+           
         }
     },
     mutations :{
@@ -45,28 +51,32 @@ const store = createStore({
           state.selectedDate = event
           return this.selectedDate;
         },
+        overrideRepos(state, data){
 
+          // var temp = [...state.gitrepo];
+
+          // temp.push(data)
+
+          // state.gitrepo = temp;
+
+          // console.log(temp)
+          // console.log(state.gitrepo)
+          
+          return state.gitrepo.push(data)
+        },
+        setSomething (state, message) {
+          state.something = message
+        }
     },
     actions:{
-      getRepoList(){
-        console.log('하이')
-        // const key = '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'
-        // const id = document.querySelector('#id').value
-        // const bBtn = document.querySelector('#backBtn')
-    
-      
-    
-        // bBtn.addEventListener('click', (e)=>{
-    
-        //     console.log(document.querySelector('#repoContent').innerHTML);
-    
-        //     document.querySelector('#repoContent').innerHTML = ' ';
-            
-        //     console.log(document.querySelector('#repoContent').innerHTML);
-        //     console.log(e);
-        //     console.log(id)
-        //     console.log(key)
-        // })
+      getRepoList({ commit }) {
+        axios.get('https://api.github.com/users/Juwon-Yun/repos')
+          .then( (res)=>{
+      //       res.data.forEach(element => {
+      //       commit('overrideRepos', element.name)
+      //  });
+              commit('overrideRepos', res.data)
+          })
       },
     },
 })
