@@ -2,7 +2,7 @@
 <div class="gitContainer">
   <div class="leftDiv">
       <GitRepository/>
-      <Issue/>
+      <!-- <Issue/> -->
   </div>
   <div class="rightDiv">
       <GitCode/>
@@ -12,13 +12,13 @@
 
 <script>
 import GitRepository from './GitRepository.vue'
-import Issue from './Issue.vue'
+// import Issue from './Issue.vue'
 import GitCode from './GitCode.vue'
 
 export default {
     components:{
         GitRepository,
-        Issue,
+        // Issue,
         GitCode,
     },
 }

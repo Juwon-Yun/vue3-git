@@ -40,7 +40,7 @@ const git = {
            ],
            gitrepo : [],
            something : '',
-           
+           selectedRepo : '',
         }
     },
     mutations :{
@@ -55,7 +55,15 @@ const git = {
 
         setSomething (state, message) {
           state.something = message
-        }
+        },
+
+        selectRepo(state, e){
+          console.log(e)
+          state.selectedRepo = e
+          this.getFilesByRepo()
+          // dispatch('getFilesByRepo', state.selectRepo)
+          return this.selectedRepo
+        },
     },
     actions:{
       getRepoList({ commit }) {
@@ -64,6 +72,21 @@ const git = {
               commit('overrideRepos', res.data)
           })
       },
+      getFilesByRepo({commit}){
+        axios.get(`https://api.github.com/repos/Juwon-Yun/${this.selectedRepo.target.innerText}/contents`)
+            .then((result) => {
+                let code = `<ul>`
+                result.data.forEach(element => {
+                    console.log(element.name)
+                    code += `<li>${element.name}</li>`
+                });
+                code += `</ul>`
+                this.selectedRepo.target.innerHTML += code
+                commit('overrideRepos', this.selectedRepo.target.innerHTML)
+            }).catch((err) => {
+                console.log(err)
+            });
+      }
     },
 }
 
