@@ -1,7 +1,7 @@
-import { createStore } from 'vuex'
 import axios from 'axios'
 
-const store = createStore({
+const git = {
+    namespaced : true,
     state(){
         return {
            issues:[
@@ -38,9 +38,7 @@ const store = createStore({
               state:'bug',
              },
            ],
-           gitrepo : [
-
-           ],
+           gitrepo : [],
            something : '',
            
         }
@@ -52,18 +50,9 @@ const store = createStore({
           return this.selectedDate;
         },
         overrideRepos(state, data){
-
-          // var temp = [...state.gitrepo];
-
-          // temp.push(data)
-
-          // state.gitrepo = temp;
-
-          // console.log(temp)
-          // console.log(state.gitrepo)
-          
-          return state.gitrepo.push(data)
+          return state.gitrepo = data
         },
+
         setSomething (state, message) {
           state.something = message
         }
@@ -71,14 +60,11 @@ const store = createStore({
     actions:{
       getRepoList({ commit }) {
         axios.get('https://api.github.com/users/Juwon-Yun/repos')
-          .then( (res)=>{
-      //       res.data.forEach(element => {
-      //       commit('overrideRepos', element.name)
-      //  });
+          .then( res =>{
               commit('overrideRepos', res.data)
           })
       },
     },
-})
+}
 
-export default store;
+export default git;

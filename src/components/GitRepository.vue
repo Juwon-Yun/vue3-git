@@ -2,30 +2,48 @@
     <div class="Repo">
         <h1>GitHub Repository</h1>
         <div class="nodeTree">
-            <button type="button" id="backBtn" @click="axiosClick">back</button>
     <h1>Repository List</h1>
-    <div class="repoContent" v-for="a in this.$store.state.gitrepo " :key="a" ></div>
-        {{a}}
+    <div class="repoContent">
+        <strong class="repoContent" v-for="a in $store.state.git.gitrepo " :key="a" >
+            {{a.name}}<br>
+        </strong>
+    </div>
+        
     <hr>
     <input id="id" type="text" placeholder="repository url" value="Juwon-Yun">
-    <button type="button">Check</button>
+    <button @click="axiosClick" type="button">Check</button>
         </div>
     </div>
 </template>
  
 <script>
+import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
+
 
 export default {
     methods: {
         axiosClick() {
             // this.$store.dispatch('getRepoList')
-            console.log(this.$store.state.gitrepo)
+        //    console.log(this.$store.state.git.gitrepo)
             
         },
+        ...mapMutations([''
+        
+        ]),
+        ...mapActions({
+            getRepoList : 'git/getRepoList',
+        }),
         
     },
     mounted() {
-        this.$store.dispatch('getRepoList')
+        // mapActions([
+        //     this.$store.state.git.dispatch('getRepoList')
+        // ]),
+        // console.log(this.$store.state.git.mapActions)
+        // console.log(this.getRepoList());
+        this.getRepoList();
+        // this.$store.modules.git.dispatch('getRepoList')
     },
     actions:{
         
@@ -41,5 +59,6 @@ export default {
 }
 .repoContent{
     color: #eee;
+    overflow: hidden;
 }
 </style>

@@ -5,11 +5,13 @@
         <input type="button" name="" id="" value="등록">
     </div>
     <hr>
-    <div class="getIssue" v-for="a in $store.state.issues" :key="a">
+    <!-- <div class="getIssue" v-for="a in $store.state.issues" :key="a">
         {{a.fileName}} &nbsp; {{a.content}} <br>
         {{a.nickname}}&nbsp;{{a.startDate}}&nbsp;{{a.currentTime}}
         <input type="button" value="버그">
-    </div>
+    </div> -->
+
+    <!-- 드롭다운 -->
 </div>
 </template>
 
