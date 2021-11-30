@@ -63,6 +63,7 @@ const git = {
           // dispatch('getFilesByRepo', state.selectRepo)
           return this.selectedRepo
         },
+      
     },
     actions:{
       getRepoList({ commit }) {
