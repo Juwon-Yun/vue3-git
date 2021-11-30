@@ -1,20 +1,40 @@
 <template>
     <div class="gitCode">
-        <h1>파일명</h1>
-        <div class="fileContent">
-            {{this.$store.state.git.selectedRepo}}
+        <h1>{{this.file}}</h1>
+        <div class="fileContent" >
+            <div class="content" >
+                {{this.file}}
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+
 export default {
 
     data(){
         return{
-            file : ""
+            file : '파일명',
         }
-    }
+    },
+    mutations :{
+     
+    },
+    actions : {
+
+    },
+    methods: {
+        iterSelectedRepo(state){
+            this.file = state.selectRepo.forEach(element => {
+            console.log('element =>  ',element);
+                this.file = element
+            });
+        return this.file
+        }
+    },
+    mounted() {
+    },
 
 }
 </script>

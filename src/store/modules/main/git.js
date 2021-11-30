@@ -12,6 +12,44 @@ const git = {
               startDate:'2021-11-29',
               currentTime:'오늘',
               state:'bug',
+             },{
+              fileName:'12345.vue',
+              content:'vue컴포넌트 에러났음',
+              nickname:'윤주원',
+              startDate:'2021-11-29',
+              currentTime:'오늘',
+              state:'bug',
+             },{
+              fileName:'12345.vue',
+              content:'vue컴포넌트 에러났음',
+              nickname:'윤주원',
+              startDate:'2021-11-29',
+              currentTime:'오늘',
+              state:'bug',
+             },
+             {
+              fileName:'12345.vue',
+              content:'vue컴포넌트 에러났음',
+              nickname:'윤주원',
+              startDate:'2021-11-29',
+              currentTime:'오늘',
+              state:'bug',
+             },
+             {
+              fileName:'12345.vue',
+              content:'vue컴포넌트 에러났음',
+              nickname:'윤주원',
+              startDate:'2021-11-29',
+              currentTime:'오늘',
+              state:'bug',
+             },
+             {
+              fileName:'ddit.vue',
+              content:'vue컴포넌트 에러났음',
+              nickname:'권영채',
+              startDate:'2021-11-29',
+              currentTime:'오늘',
+              state:'bug',
              },
              {
               fileName:'12345.vue',
@@ -58,12 +96,11 @@ const git = {
         },
 
         selectRepo(state, p_fileName){
-          console.log('mutations에용', p_fileName);
+          console.log(p_fileName)
           state.selectedRepo = p_fileName
-          // dispatch('getFilesByRepo', state.selectRepo)
-          return this.selectedRepo
         },
-      
+        
+
     },
     actions:{
       getRepoList({ commit }) {

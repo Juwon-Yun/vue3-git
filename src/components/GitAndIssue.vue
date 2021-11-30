@@ -1,8 +1,8 @@
 <template>
 <div class="gitContainer">
   <div class="leftDiv">
-      <GitRepository/>
-      <!-- <Issue/> -->
+      <GitRepository class="git"/>
+      <Issue class="issue"/>
   </div>
   <div class="rightDiv">
       <GitCode/>
@@ -12,19 +12,19 @@
 
 <script>
 import GitRepository from './GitRepository.vue'
-// import Issue from './Issue.vue'
+import Issue from './Issue.vue'
 import GitCode from './GitCode.vue'
 
 export default {
     components:{
         GitRepository,
-        // Issue,
+        Issue,
         GitCode,
     },
 }
 </script>
 
-<style>
+<style scope>
 .gitContainer{
     padding: 10px 40px;
     display: flex;
@@ -41,6 +41,20 @@ export default {
 
 h1{
     color: #eee;
+}
+
+.git > *{
+    height: 150px;
+    transition: all .5s ease-in;
+}
+
+.git:hover > * {
+    height: 500px;
+}
+
+.git:hover +.issue {
+    height: 100px;
+    overflow: hidden;
 }
 
 </style>
