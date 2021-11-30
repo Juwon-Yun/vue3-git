@@ -4,7 +4,8 @@
         <div class="nodeTree">
     <h1>Repository List</h1>
     <div class="repoContent">
-        <strong  @click="selectRepo" v-for="a in $store.state.git.gitrepo " :key="a" >
+        <!-- @click.stop => 이벤트 버블링을 막을수있는 vue 문법  -->
+        <strong  @click="getFilesByRepo($event,index)" v-for="a,index in $store.state.git.gitrepo " :key="index" :id="`btn${index}`">
             {{a.name}}<br>
         </strong>
     </div>
@@ -25,6 +26,7 @@ export default {
     methods: {
         ...mapMutations({
             selectRepo : 'git/selectRepo',
+
         }),
         ...mapActions({
             getRepoList : 'git/getRepoList',
@@ -37,25 +39,54 @@ export default {
             // this.selectRepo()
             // console.log(this.selectRepo())
         },
-        // getFilesByRepo(e){
-        //     // e.target(e의 객체 자체를 의미함) => 이벤트 발생을 시키는 객체
-        //     // console.log(e.target.innerText)
-        //     console.log(e)
-        //     this.axios.get(`https://api.github.com/repos/Juwon-Yun/${e.target.innerText}/contents`)
-        //     .then((result) => {
-        //         let code = `<ul>`
-        //         result.data.forEach(element => {
-        //             console.log(element.name)
-        //             code += `<li>${element.name}</li>`
-        //         });
-        //         code += `</ul>`
-        //         e.target.innerHTML += code
-                
-        //     }).catch((err) => {
-        //         console.log(err)
-        //     });
+        getFilesByRepo(e,index){
+            // e.target(e의 객체 자체를 의미함) => 이벤트 발생을 시키는 객체
+            // console.log(e.target.innerText)
+            // console.log(index)
 
-        // },
+            let target = document.getElementById(`btn${index}`)
+
+            // e.target과 btn${index} 가 다르면 return 
+            if(e.target !== target) return
+
+            this.axios.get(`https://api.github.com/repos/Juwon-Yun/${e.target.innerText}/contents`)
+            .then((result) => {
+                let code = `<ul>`
+                result.data.forEach((element) => {
+                    if(!document.querySelector('.repoContent').hasChildNodes){
+                        // document.querySelector('.repoContent').children.removeAttribute('click');
+                        code += `<li>하위 파일 및 폴더가 존재하지 않습니다.</li>`;
+                        code += `</ul>`
+                         e.target.innerHTML += code
+                        return
+                    }
+                    console.log(element)
+                    // console.log(element.type)
+                    if(element.type === 'dir'){
+                        code += `<li  data-repoName="' + ${element.name} + '">${element.name} 폴더!!!</li>`
+                        // console.log(element[idx].name)
+                        // this.sendFileContent(element[idx].name)
+                    }else{
+                        code += `<li @[click]='[sendFileContent("${element.name}")' data-repoName="' + ${element.name} + '">${element.name} 파일!!!</li>`
+                        // this.sendFileContent(element.name)
+                    }
+
+                });
+                code += `</ul>`
+                e.target.innerHTML += code
+            }).catch((err) => {
+                console.log(err)
+            });
+
+        },
+        sendFileContent(p_fileName){
+            alert(p_fileName)
+            console.log('sendFileContentd에용 ',p_fileName)
+            this.selectRepo(p_fileName)
+        },
+        isDir(){
+
+        }
     },
     created() {
         // mapActions([

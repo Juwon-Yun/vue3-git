@@ -57,10 +57,9 @@ const git = {
           state.something = message
         },
 
-        selectRepo(state, e){
-          console.log(e)
-          state.selectedRepo = e
-          this.getFilesByRepo()
+        selectRepo(state, p_fileName){
+          console.log('mutations에용', p_fileName);
+          state.selectedRepo = p_fileName
           // dispatch('getFilesByRepo', state.selectRepo)
           return this.selectedRepo
         },
@@ -72,21 +71,23 @@ const git = {
               commit('overrideRepos', res.data)
           })
       },
-      getFilesByRepo({commit}){
-        axios.get(`https://api.github.com/repos/Juwon-Yun/${this.selectedRepo.target.innerText}/contents`)
-            .then((result) => {
-                let code = `<ul>`
-                result.data.forEach(element => {
-                    console.log(element.name)
-                    code += `<li>${element.name}</li>`
-                });
-                code += `</ul>`
-                this.selectedRepo.target.innerHTML += code
-                commit('overrideRepos', this.selectedRepo.target.innerHTML)
-            }).catch((err) => {
-                console.log(err)
-            });
-      }
+      // getFilesByRepo(e){
+      //   console.log('Repo')
+      //   console.log(e)
+      //   axios.get(`https://api.github.com/repos/Juwon-Yun/${e.state}/contents`)
+      //       .then((result) => {
+      //           let code = `<ul>`
+      //           result.data.forEach(element => {
+      //               console.log(element.name)
+      //               code += `<li>${element.name}</li>`
+      //           });
+      //           code += `</ul>`
+      //           e.target.innerHTML += code
+      //           // commit('overrideRepos', e.target.innerHTML)
+      //       }).catch((err) => {
+      //           console.log(err)
+      //       });
+      // }
     },
 }
 
