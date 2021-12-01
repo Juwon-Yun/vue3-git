@@ -21,6 +21,10 @@ import axios from 'axios' // eslint-disable-line no-unused-vars
 const key = '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';
 
 export default {
+    data() {
+        return {
+        }
+    },
     methods: {
         ...mapMutations({
             selectRepo : 'git/selectRepo',
@@ -43,7 +47,6 @@ export default {
             // e.target(e의 객체 자체를 의미함) => 이벤트 발생을 시키는 객체
             // console.log(e.target.innerText)
             // console.log(index)
-            
             e.stopPropagation();
 
             let target = document.getElementById(`btn${index}`)// eslint-disable-line no-unused-vars
@@ -55,17 +58,20 @@ export default {
                 // let code = `<ul>`
                 console.log(result)
                 result.data.forEach(element => {
+                    console.log(element);
                     let ul = document.createElement('ul'); // eslint-disable-line no-unused-vars
                     let li = document.createElement('li');
 
-                    if(element.type === 'dir'){
-                        li.innerHTML = `${element.name} ! dir !`;
-                    }else if(element.type === 'file'){
-                        li.innerHTML = `${element.name} ! file !`;
-                    } 
+                    // if(element.type === 'dir'){
+                    li.innerHTML = `${element.name}`;
+                    // }else if(element.type === 'file'){
+                    //     li.innerHTML = `${element.name}+${element.type}`;
+                    // } 
                     // console.log('this => ',this.sendFileContent)
                     li.setAttribute('data-repoName', element.name);
-                    li.addEventListener('click', this.sendFileContent);
+
+                    li.addEventListener('click', this.sendFileContent(element.name));
+
                     e.target.appendChild(ul);
                     ul.appendChild(li);
                 });
@@ -100,9 +106,14 @@ export default {
         },
 
         sendFileContent(p_fileName){
-          this.selectRepo(p_fileName)
-        },
+            console.log('p_name =>  ',p_fileName)
 
+            // for(const key in p_fileName){
+            //     console.log(`${key} : ${p_fileName[key]}`)
+            // }
+
+            this.selectRepo(p_fileName)
+        },
         isDir(){
 
         }

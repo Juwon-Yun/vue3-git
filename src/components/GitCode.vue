@@ -1,9 +1,15 @@
 <template>
     <div class="gitCode">
-        <h1>{{this.file}}</h1>
+        <div v-if="this.$store.state.git.selectedRepo !== null">
+            <h1>{{this.$store.state.git.selectedRepo}}</h1>
+        </div>
+        <div v-else-if="this.$store.state.git.selectedRepo === null">
+            <h1>{{this.file}}</h1>
+        </div>
+
         <div class="fileContent" >
             <div class="content" >
-                {{this.file}}
+                {{this.$store.state.git.selectedRepo}}
             </div>
         </div>
     </div>
@@ -25,17 +31,13 @@ export default {
 
     },
     methods: {
-        iterSelectedRepo(state){
-            this.file = state.selectRepo.forEach(element => {
-            console.log('element =>  ',element);
-                this.file = element
-            });
-        return this.file
-        }
+        
     },
     mounted() {
     },
+    watch : {
 
+    },
 }
 </script>
 

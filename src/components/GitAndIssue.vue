@@ -43,7 +43,7 @@ h1{
     color: #eee;
 }
 
-.git > *{
+/* .git > *{
     height: 150px;
     transition: all .5s ease-in;
 }
@@ -55,6 +55,6 @@ h1{
 .git:hover +.issue {
     height: 100px;
     overflow: hidden;
-}
+} */
 
 </style>

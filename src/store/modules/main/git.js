@@ -78,7 +78,7 @@ const git = {
            ],
            gitrepo : [],
            something : '',
-           selectedRepo : '',
+           selectedRepo : null,
         }
     },
     mutations :{
