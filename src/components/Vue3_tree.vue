@@ -1,14 +1,14 @@
 <template>
     <input type="text" v-model="searchText">
     <Tree 
-    :nodes="data" 
     :search-text="searchText"
     :use-icon="true"
+    @nodeExpanded="onUpdate"
+    :nodes="data" 
     />
     <!-- :use-checkbox="true" -->
     <!-- show-child-count -->
     <!-- use-row-delete -->
-    <!-- @nodeExpanded="onUpdate" -->
 </template>
 
 <script>
@@ -17,7 +17,7 @@ import Tree from 'vue3-tree'
 import "vue3-tree/dist/style.css";
 
 // name, type, file => content, dir => url, 
-const key = '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';
+const key = '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';
 
 export default {
     components : {
@@ -101,12 +101,13 @@ export default {
         },
         
         getFileList() {
-            this.axios.get('https://api.github.com/repos/Juwon-Yun/kanboo_my_work/contents', {
+            this.axios.get('https://api.github.com/repos/Juwon-Yun/Algorithm/contents', {
                     headers : {
                         Authorization : `token ${key}`
                     }
                 })
             .then( res =>{
+
                 for(let i of res.data){
                     
                     const arrayA = {
@@ -129,6 +130,7 @@ export default {
                         )
                         .then( p_i_url => {
                             for(let j of p_i_url.data){
+
                                 const arrayB = {
                                     idx : j.sha,
                                     label : j.name,
@@ -150,6 +152,7 @@ export default {
                                     }
                                 ).then( p_j_url => {
                                         for(let k of p_j_url.data){
+
                                             const arrayC = {
                                                 idx : k.sha,
                                                 label : k.name,
@@ -158,17 +161,19 @@ export default {
                                                 nodes : [],
                                                 content : null,
                                             }
+
                                             if(k.type === 'file'){
                                                 arrayC.nodes = null
                                                 arrayC.content = k.content
                                             }else if(k.type === 'dir'){
                                                 this.axios.get(k.url, {
-                                                headers : {
-                                                    Authorization : `token ${key}`
-                                                        }
+                                                    headers : {
+                                                        Authorization : `token ${key}`
                                                     }
+                                                }
                                                 ).then( p_k_url => {
                                                         for(let l of p_k_url.data){
+
                                                             const arrayD = {
                                                                 idx : l.sha,
                                                                 label : l.name,
@@ -177,9 +182,66 @@ export default {
                                                                 nodes : [],
                                                                 content : null,
                                                             }
+
                                                             if(l.type === 'file'){
                                                                 arrayD.nodes = null
                                                                 arrayD.content = l.content
+                                                            }
+
+                                                            else if(l.type === 'dir'){
+                                                                this.axios.get(l.url, {
+                                                                    headers : {
+                                                                        Authorization : `token ${key}`
+                                                                    }
+                                                                }
+                                                                ).then( p_l_url => {
+                                                                        for(let m of p_l_url.data){
+
+                                                                            const arrayE = {
+                                                                                idx : m.sha,
+                                                                                label : m.name,
+                                                                                type : m.type,
+                                                                                url : m.url,
+                                                                                nodes : [],
+                                                                                content : null,
+                                                                            }
+
+                                                                            if(m.type === 'file'){
+                                                                                arrayE.nodes = null
+                                                                                arrayE.content = m.content
+                                                                            }else if(m.type === 'dir'){
+                                                                                this.axios.get(l.url, {
+                                                                                    headers : {
+                                                                                        Authorization : `token ${key}`
+                                                                                    }
+                                                                                }
+                                                                                ).then( p_n_url => {
+                                                                                    for(let n of p_n_url.data){
+                                                                                        const arrayF = {
+                                                                                            idx : n.sha,
+                                                                                            label : n.name,
+                                                                                            type : n.type,
+                                                                                            url : n.url,
+                                                                                            nodes : [],
+                                                                                            content : null,
+                                                                                        }
+
+                                                                                        if(n.type === 'file'){
+                                                                                            arrayF.nodes = null
+                                                                                            arrayF.content = n.content
+                                                                                        }
+                                                                                        // else if(n.type === 'dir'){
+
+                                                                                        // }
+                                                                                        arrayE.nodes.push(arrayF)
+                                                                                    }// for of n
+                                                                                })// axios then
+                                                                            }// else 
+                                                                            
+                                                                            arrayD.nodes.push(arrayE)
+                                                                        }
+
+                                                                }) // p_l_url axios
                                                             }
 
                                                             arrayC.nodes.push(arrayD)
@@ -196,9 +258,7 @@ export default {
                             }// for j of
                         })
                     }// url axios
-
                     this.data.push(arrayA)
-                    console.log(this.data)
                 }// for i of
 
             })
