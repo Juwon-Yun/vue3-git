@@ -76,7 +76,14 @@ const git = {
               state:'bug',
              },
            ],
-           gitrepo : [],
+           gitrepo : [
+              // sha : ,
+              // type : ,
+              // url ,
+              // nodes : [
+
+              // ]
+           ],
            something : '',
            selectedRepo : null,
         }
@@ -88,6 +95,20 @@ const git = {
           return this.selectedDate;
         },
         overrideRepos(state, data){
+          // 이시점에 json 배열로 변환후 state에 저장
+
+          for(let i of data) {
+            const a = {
+              url: i.url,
+              label: i.name,
+              nodes: []
+            }
+            if( i.type ==='file'){
+              a.nodes = null
+            }
+            state.gitrepo.push(a)
+          }
+
           return state.gitrepo = data
         },
 
@@ -104,8 +125,9 @@ const git = {
     },
     actions:{
       getRepoList({ commit }) {
-        axios.get('https://api.github.com/users/Juwon-Yun/repos')
+        axios.get('https://api.github.com/repos/Juwon-Yun/Algorithm/contents')
           .then( res =>{
+              console.log(res.data)
               commit('overrideRepos', res.data)
           })
       },

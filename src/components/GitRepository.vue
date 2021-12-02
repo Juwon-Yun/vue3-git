@@ -61,7 +61,7 @@ export default {
                     console.log(element);
                     let ul = document.createElement('ul'); // eslint-disable-line no-unused-vars
                     let li = document.createElement('li');
-
+                    console.log('type =>>>> ', element.type)
                     // if(element.type === 'dir'){
                     li.innerHTML = `${element.name}`;
                     // }else if(element.type === 'file'){
@@ -118,7 +118,8 @@ export default {
 
         }
     },
-    created() {
+    mounted() {
+        
         // mapActions([
         //     this.$store.state.git.dispatch('getRepoList')
         // ]),
