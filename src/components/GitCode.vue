@@ -8,35 +8,45 @@
         </div>
 
         <div class="fileContent" >
-            <div class="content" >
-                {{this.$store.state.git.selectedRepo}}
-            </div>
+            <pre class="content" ><code>{{this.$store.state.git.decodeData}}</code></pre>
         </div>
     </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 
 export default {
 
     data(){
         return{
             file : '파일명',
+            s_decodeData : '',
         }
     },
     mutations :{
-     
+       
     },
     actions : {
-
-    },
-    methods: {
         
     },
+    methods: {
+        ...mapMutations({
+            getDecodeData : 'git/getDecodeData',
+        }),
+
+        input_S_decodeData(){
+            this.s_decodeData = this.$store.state.git.decodeData.innerText
+        },
+
+    },
     mounted() {
+        this.input_S_decodeData()
     },
     watch : {
-
+        s_decodeData : function(){
+            console.log('바꼇다')
+        }
     },
 }
 </script>

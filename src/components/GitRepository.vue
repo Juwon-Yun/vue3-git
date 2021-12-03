@@ -1,13 +1,15 @@
 <template>
     <div class="Repo">
-        <h1>GitHub Repository</h1>
+        <h1>Project Repository</h1>
         <div class="nodeTree">
-            <h1>Repository List</h1>
-            <br>
+            <h1>Document List</h1>
             <div class="repoContent">
-                <span  @click.stop="getFilesByRepo($event,index)" v-for="a,index in $store.state.git.gitrepo " :key="index" :id="`btn${index}`">
-                    {{a.name}}<br>
-                </span>
+                <Tree 
+                :search-text="searchText"
+                :use-icon="true"
+                @nodeExpanded="onUpdate"
+                :nodes="data" 
+                />
             </div>
         </div>
     </div>
@@ -16,118 +18,116 @@
 <script>
 import { mapMutations } from 'vuex'
 import { mapActions } from 'vuex'
-import axios from 'axios' // eslint-disable-line no-unused-vars
+import { ref } from 'vue';
+import Tree from 'vue3-tree'
+import "vue3-tree/dist/style.css";
 
-const key = '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';
+const key = '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';
 
 export default {
+    components : {
+        Tree,
+    },
     data() {
         return {
+            data : ref([]),
+            searchText : ref(''),
+            encodedData : '',
         }
     },
     methods: {
         ...mapMutations({
-            selectRepo : 'git/selectRepo',
-            sendFileContent : 'git/sendFileContent',
-
+            setDecodeData : 'git/setDecodeData',
         }),
         ...mapActions({
             getRepoList : 'git/getRepoList',
         }),
-        axiosClick() {
-            // this.$store.dispatch('getRepoList')
-        //    console.log(this.$store.state.git.gitrepo)
-            // $store.state.git.commit('selectRepo')
-            // console.log(this.$store.state.git.commit('selectRepo'))
-            // this.selectRepo()
-            // console.log(this.selectRepo())
+
+        onUpdate(e) {
+            if(e.type === 'file'){
+                this.sendContent(e)
+                return
+            }
+            this.axios.get(`${e.url}`, {
+                    headers : {
+                        Authorization : `token ${key}`
+                    }
+            })
+            .then( res => {
+                for(let i of res.data){
+                    const a = {
+                        idx : i.sha,
+                        label : i.name,
+                        type : i.type,
+                        url : i.url,
+                        nodes : [],
+                        content : null,
+                    }
+                    if(i.type === 'file'){
+                        a.nodes = null
+                        a.content = i.content
+                    }
+
+                    e.nodes.push(a)
+                }
+            })
         },
-        getFilesByRepo(e,index){
-        // getFilesByRepo(e){
-            // e.target(e의 객체 자체를 의미함) => 이벤트 발생을 시키는 객체
-            // console.log(e.target.innerText)
-            // console.log(index)
-            e.stopPropagation();
 
-            let target = document.getElementById(`btn${index}`)// eslint-disable-line no-unused-vars
-            // e.target과 btn${index} 가 다르면 return 
-            if(e.target !== target) return
-
-            this.axios.get(`https://api.github.com/repos/Juwon-Yun/${e.target.innerText}/contents`, {key})
-            .then((result) => {
-                // let code = `<ul>`
-                console.log(result)
-                result.data.forEach(element => {
-                    console.log(element);
-                    let ul = document.createElement('ul'); // eslint-disable-line no-unused-vars
-                    let li = document.createElement('li');
-                    console.log('type =>>>> ', element.type)
-                    // if(element.type === 'dir'){
-                    li.innerHTML = `${element.name}`;
-                    // }else if(element.type === 'file'){
-                    //     li.innerHTML = `${element.name}+${element.type}`;
-                    // } 
-                    // console.log('this => ',this.sendFileContent)
-                    li.setAttribute('data-repoName', element.name);
-
-                    li.addEventListener('click', this.sendFileContent(element.name));
-
-                    e.target.appendChild(ul);
-                    ul.appendChild(li);
-                });
-
-                // for(let i = 0; i < result.data.length; i++){
-                //     if(result.data[i].type === 'dir'){
-                //         li.innerHTML = `${result.data[i].name} ! dir !`
-                //     }else if(result.data[i].type === 'file'){
-                //         // li.innerHTML = '';
-                //         li.innerHTML = `${result.data[i].name} ! file !`;
-                //     }
-                //         // bind => 함수의 포인터를 만들어서 반환한다.
-                //         // li.addEventListener('click', this.sendFileContent.bind(this, element.name));
-                // }
-                // result.data.forEach( (element) => {
-
-                    // if(!document.querySelector('.repoContent').hasChildNodes){
-                    //     // document.querySelector('.repoContent').children.removeAttribute('click');
-                    //     code += `<li>하위 파일 및 폴더가 존재하지 않습니다.</li>`;
-                    //     code += `</ul>`
-                    //      e.target.innerHTML += code
-                    //     console.log('return함')
-                    //     return
-                    // }
-
-                   
-                // });
-            }).catch((err) => {
-                console.log(err)
-            });
-
+        sendContent(e){
+                this.axios.get(`${e.url}`, {
+                        headers : {
+                            Authorization : `token ${key}`
+                        }
+                })
+                .then( res => {
+                    this.encodedData = res.data.content
+                    this.decodeData()
+                })
         },
 
         sendFileContent(p_fileName){
-            console.log('p_name =>  ',p_fileName)
-
-            // for(const key in p_fileName){
-            //     console.log(`${key} : ${p_fileName[key]}`)
-            // }
-
             this.selectRepo(p_fileName)
         },
-        isDir(){
 
-        }
+        getFileList() {
+            this.axios.get('https://api.github.com/repos/Juwon-Yun/kanboo_my_work/contents', {
+                    headers : {
+                        Authorization : `token ${key}`
+                    }
+                })
+            .then( res =>{
+                for(let i of res.data){
+
+                    // 403 error 방지 
+                    if(i.name === 'package-lock.json' ){
+                        continue
+                    }
+                    
+                    const array = {
+                        idx : i.sha,
+                        label : i.name,
+                        type : i.type,
+                        url : i.url,
+                        nodes : [],
+                        content : null,
+                    }
+                    if(i.type === 'file'){
+                        array.nodes = null
+                        array.content = i.content
+                    }
+                    this.data.push(array)
+                }// for i of
+            })
+        },
+        decodeData(){
+            this.setDecodeData( decodeURIComponent(escape(window.atob(this.encodedData)))) 
+        },
     },
+
     mounted() {
-        
-        // mapActions([
-        //     this.$store.state.git.dispatch('getRepoList')
-        // ]),
-        // console.log(this.$store.state.git.mapActions)
-        // console.log(this.getRepoList());
-        this.getRepoList();
-        // this.$store.modules.git.dispatch('getRepoList')
+        this.getFileList();
     },
+
     actions:{
         
     },
@@ -144,19 +144,20 @@ export default {
     scrollbar-width: none; /* Firefox */
 }
 .nodeTree::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none; 
 }
-/* .nodeTree:hover{
-    height: 40vh;
-} */
+.nodeTree > h1{
+    padding-bottom: 5px;
+}
 .repoContent{
     color: #eee;
 }
-ul {
-    padding-left: 20px;
+
+.tree-row-item{
+    padding: 0;
 }
-li{
-    padding-left: 20px;
-    text-decoration: none;
+.tree-list{
+    gap : 5px;
 }
+
 </style>

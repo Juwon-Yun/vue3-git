@@ -43,18 +43,4 @@ h1{
     color: #eee;
 }
 
-/* .git > *{
-    height: 150px;
-    transition: all .5s ease-in;
-}
-
-.git:hover > * {
-    height: 500px;
-}
-
-.git:hover +.issue {
-    height: 100px;
-    overflow: hidden;
-} */
-
 </style>

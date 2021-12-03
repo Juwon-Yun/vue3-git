@@ -3,20 +3,20 @@
     <nav>
       <a href="#">KanBoo</a>
     </nav> 
-    <!-- <GitAndIssue/> -->
-    <Vue3_tree/>
+    <GitAndIssue/>
+    <!-- <Vue3_tree/> -->
   </div>
 </template>
 
 <script>
-// import GitAndIssue from './components/GitAndIssue.vue'
-import Vue3_tree from './components/Vue3_tree.vue'
+import GitAndIssue from './components/GitAndIssue.vue'
+// import Vue3_tree from './components/Vue3_tree.vue'
 
 export default {
   name: 'App',
   components: {
-    // GitAndIssue,
-    Vue3_tree,
+    GitAndIssue,
+    // Vue3_tree,
   },
   
 }
@@ -28,8 +28,7 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* background: #16161A; */
-  background: #eee;
+  background: #16161A;
 }
 
 nav {

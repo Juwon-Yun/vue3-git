@@ -1,5 +1,5 @@
 <template>
-    <input type="text" v-model="searchText">
+    <!-- <input type="text" v-model="searchText"> -->
     <Tree 
     :search-text="searchText"
     :use-icon="true"
@@ -17,7 +17,7 @@ import Tree from 'vue3-tree'
 import "vue3-tree/dist/style.css";
 
 // name, type, file => content, dir => url, 
-const key = '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';
+const key = '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';
 
 export default {
     components : {
@@ -71,27 +71,8 @@ export default {
                     }
             })
             .then( res => {
-                // for(let i of res.data){
-                    // const a = {
-                    //     idx : i.sha,
-                    //     label : i.name,
-                    //     type : i.type,
-                    //     url : i.url,
-                    //     nodes : [],
-                    //     content : null,
-                    // }
-                    // if(i.type === 'file'){
-                    //     a.nodes = null
-                    //     a.content = i.content
-                    // }
-
-                    // e.nodes.push(a)
-                // }
-                // console.log( (res.data) )
                 console.log(res)
-
                 this.encodedData = res.data.content
-
                 this.decodeData()
             })
         },
@@ -104,7 +85,7 @@ export default {
                 })
             .then( res =>{
                 for(let i of res.data){
-                    const arrayA = {
+                    const array = {
                         idx : i.sha,
                         label : i.name,
                         type : i.type,
@@ -113,17 +94,16 @@ export default {
                         content : null,
                     }
                     if(i.type === 'file'){
-                        arrayA.nodes = null
-                        arrayA.content = i.content
+                        array.nodes = null
+                        array.content = i.content
                     }
-                    this.data.push(arrayA)
+                    this.data.push(array)
                 }// for i of
             })
         },
 
         decodeData(){
-            this.decodedData =  atob(this.encodedData)
-
+            this.decodedData =  decodeURIComponent(escape(window.atob(this.encodedData)))
             console.log( this.decodedData )
         }
     },
