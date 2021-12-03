@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "code-highlight": "^1.0.0",
     "core-js": "^3.6.5",
+    "simple-syntax-highlighter": "^2.2.0",
     "vue": "^3.0.0",
+    "vue-prism-editor": "^2.0.0-alpha.2",
+    "vue-prismjs": "^1.2.0",
     "vue3-tree": "^0.9.0",
     "vuex": "^4.0.2"
   },

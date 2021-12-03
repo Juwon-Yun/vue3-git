@@ -22,7 +22,7 @@ import { ref } from 'vue';
 import Tree from 'vue3-tree'
 import "vue3-tree/dist/style.css";
 
-const key = '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';
+const key = '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';
 
 export default {
     components : {
@@ -38,6 +38,7 @@ export default {
     methods: {
         ...mapMutations({
             setDecodeData : 'git/setDecodeData',
+            setSelectedFileName : 'git/setSelectedFileName',
         }),
         ...mapActions({
             getRepoList : 'git/getRepoList',
@@ -82,11 +83,8 @@ export default {
                 .then( res => {
                     this.encodedData = res.data.content
                     this.decodeData()
+                    this.setSelectedFileName(res.data.name)
                 })
-        },
-
-        sendFileContent(p_fileName){
-            this.selectRepo(p_fileName)
         },
 
         getFileList() {
@@ -102,7 +100,7 @@ export default {
                     if(i.name === 'package-lock.json' ){
                         continue
                     }
-                    
+
                     const array = {
                         idx : i.sha,
                         label : i.name,
@@ -119,6 +117,7 @@ export default {
                 }// for i of
             })
         },
+
         decodeData(){
             this.setDecodeData( decodeURIComponent(escape(window.atob(this.encodedData)))) 
         },

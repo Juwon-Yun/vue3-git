@@ -31,6 +31,9 @@ export default {
     height: 85%;
     justify-content: space-between;
 }
+.gitContainer  h1 {
+    padding-bottom: 3px;
+}
 .leftDiv{
     width: 45%;
 }

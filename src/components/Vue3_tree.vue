@@ -33,7 +33,7 @@ export default {
         }
     },
     methods: {
-        
+        // ...mapmutations?? 어디감 setDecodeData() 왜 호출안함?
         onUpdate(e) {
             if(e.type === 'file'){
                 this.sendContent(e)
@@ -104,6 +104,7 @@ export default {
 
         decodeData(){
             this.decodedData =  decodeURIComponent(escape(window.atob(this.encodedData)))
+            
             console.log( this.decodedData )
         }
     },

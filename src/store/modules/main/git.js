@@ -2,6 +2,14 @@ const git = {
     namespaced : true,
     state(){
         return {
+          origin: {
+            fileName: '',
+            content : '',
+            nickname : '윤주원',
+            startDate : new Date().getDate(),
+            currentTime : '오늘',
+            state : '버그',
+          },
            issues:[
              {
               fileName:'12345.vue',
@@ -9,21 +17,21 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'버그',
              },{
               fileName:'12345.vue',
               content:'vue컴포넌트 에러났음',
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },{
               fileName:'12345.vue',
               content:'vue컴포넌트 에러났음',
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'완료',
              },
              {
               fileName:'12345.vue',
@@ -31,7 +39,7 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
              {
               fileName:'12345.vue',
@@ -39,7 +47,7 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
              {
               fileName:'ddit.vue',
@@ -47,7 +55,7 @@ const git = {
               nickname:'권영채',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
              {
               fileName:'12345.vue',
@@ -55,7 +63,7 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
              {
               fileName:'12345.vue',
@@ -63,7 +71,7 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
              {
               fileName:'12345.vue',
@@ -71,11 +79,12 @@ const git = {
               nickname:'윤주원',
               startDate:'2021-11-29',
               currentTime:'오늘',
-              state:'bug',
+              state:'수정중',
              },
            ],
            something : '',
            decodeData : '',
+           selectedFileName : '',
         }
     },
     mutations :{
@@ -96,10 +105,22 @@ const git = {
           return state.decodeData
         },
       
-        selectRepo(state, p_fileName){
-          console.log(p_fileName)
-          state.selectedRepo = p_fileName
+        setSelectedFileName(state, data){
+          state.selectedFileName = data
         },
+
+        addIssueData(state){
+          state.origin.fileName = state.selectedFileName
+          state.issues.unshift(state.origin)
+          state.origin = {
+            fileName: '',
+            content : '',
+            nickname : '윤주원',
+            startDate : new Date(),
+            currentTime : '오늘',
+            state : '버그',
+          }
+        }
     },
 
     actions:{
